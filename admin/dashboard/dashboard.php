@@ -94,3 +94,7 @@ unset($_SESSION['sukses']);
 
 
   </div><!-- End Left side columns -->
+
+<h5 class="card-title text-center mb-0">STATISTIK ALUMNI</h5>
+<canvas id="alumniChart" style="max-height:400px;"></canvas>
+<hr>

@@ -1,4 +1,8 @@
 <div class="card">
+    <h5 class="card-title text-center mb-0">STATISTIK ALUMNI</h5>
+    <canvas id="alumniChart" style="max-height:400px;"></canvas>
+    <hr>
+
     <div class="card-body">
         <h5 class="card-title text-center" mb-0>TAMBAH TRACER</h5>
         <!-- Cek Session -->

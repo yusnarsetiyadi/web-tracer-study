@@ -20,6 +20,7 @@ if (isset($_POST["tambah"])) {
     date_default_timezone_set('Asia/Jakarta');
 
     $con->tambah_tracer($id_alumni, $nama_instansi, $alamat_instansi, $sektor_perusahaan, $no_telepon_instansi, $nilai_gaji, $ket_umr, $waktu_tunggu_kerja, $instansi_pertama, $sektor_instansi_pertama, $nilai_gaji_pertama, $ket_umr_gaji_pertama);
+    $con->update_work_alumni($id_alumni);
     $_SESSION['sukses'] = "Data Tracer Berhasil Ditambah!";
     header("location: ../../?menu=data-tracer");
     exit();

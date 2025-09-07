@@ -12,6 +12,33 @@ if (!isset($_SESSION['nisn'])) {
 }
 ?>
 
+<?php
+$currentYear = (int)date('Y');
+$startYear   = $currentYear - 4;
+$dataForChart = $con->get_data_alumni();
+$stats = [];
+
+for ($y = $startYear; $y <= $currentYear; $y++) {
+  $stats[$y] = ['work_0' => 0, 'work_1' => 0];
+}
+
+while ($r = $dataForChart->fetch_assoc()) {
+  $year = (int)date('Y', strtotime($r['updated_at']));
+  if ($year >= $startYear && $year <= $currentYear) {
+    $w = (int)$r['work'] === 1 ? 'work_1' : 'work_0';
+    $stats[$year][$w]++;
+  }
+}
+
+ksort($stats);
+?>
+
+<script>
+// lempar ke JS sebagai variabel global
+window.ALUMNI_STATS = <?= json_encode($stats) ?>;
+window.ALUMNI_CHART_TITLE = 'Statistik Alumni (5 Tahun Terakhir)';
+</script>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -45,7 +72,8 @@ if (!isset($_SESSION['nisn'])) {
   <!-- Template Main CSS File -->
   <link href="../../assets/css/style.css" rel="stylesheet">
 </head>
-
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="./assets/js/alumni-chart.js"></script>
 <body>
 
   <!-- ======= Header ======= -->

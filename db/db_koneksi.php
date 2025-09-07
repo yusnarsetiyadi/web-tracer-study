@@ -272,7 +272,7 @@ class db_koneksi
         $nilai_gaji_pertama,
         $ket_umr_gaji_pertama
     ) {
-        $stmt = $this->koneksi->prepare("INSERT INTO tracer (id_alumni, nama_instansi, alamat_instansi, sektor_perusahaan, no_telepon_instansi, nilai_gaji, ket_umr, waktu_tunggu_kerja, instansi_pertama, sektor_instansi_pertama, nilai_gaji_pertama, ket_umr_gaji_pertama
+        $stmt = $this->koneksi->prepare("INSERT INTO tracer (id_alumni, nama_instansi, alamat_instansi, sektor_perusahaan, no_telpon_instansi, nilai_gaji, ket_umr, waktu_tunggu_kerja, instansi_pertama, sektor_instansi_pertama, nilai_gaji_pertama, ket_umr_gaji_pertama
         ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)");
         $stmt->bind_param("isssssssssss", $id_alumni, $nama_instansi, $alamat_instansi, $sektor_perusahaan, $no_telepon_instansi, $nilai_gaji, $ket_umr, $waktu_tunggu_kerja, $instansi_pertama, $sektor_instansi_pertama, $nilai_gaji_pertama, $ket_umr_gaji_pertama);
         $result = $stmt->execute();
@@ -330,6 +330,56 @@ class db_koneksi
     function get_data_tracer_by_id($id)
     {
         $stmt = $this->koneksi->prepare("SELECT * FROM tracer where id_alumni=$id");
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $stmt->close();
+        return $result;
+    }
+
+    function update_reason_alumni($id_alumni, $reason)
+    {
+        $stmt = $this->koneksi->prepare("UPDATE alumni SET reason = ? WHERE id_alumni = ?");
+        $stmt->bind_param("si", $reason, $id_alumni);
+        $result = $stmt->execute();
+        $stmt->close();
+        return $result;
+    }
+
+    function update_work_alumni($id_alumni)
+    {
+        $stmt = $this->koneksi->prepare("UPDATE alumni SET work = TRUE, reason = NULL WHERE id_alumni = ?");
+        $stmt->bind_param("i", $id_alumni);
+        $result = $stmt->execute();
+        $stmt->close();
+        return $result;
+    }
+
+    function get_data_alumni_no_work()
+    {
+        $stmt = $this->koneksi->prepare("SELECT * FROM alumni WHERE work = FALSE");
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $stmt->close();
+        return $result;
+    }
+    
+    function get_data_tracer_with_alumni()
+    {
+        $stmt = $this->koneksi->prepare("
+            SELECT 
+                t.*, 
+                a.nama_lengkap AS nama_alumni, 
+                a.jurusan, 
+                a.tahun_lulus
+            FROM tracer t
+            JOIN alumni a ON a.id_alumni = t.id_alumni
+            JOIN (
+                SELECT id_alumni, MAX(created_at) AS last_created
+                FROM tracer
+                GROUP BY id_alumni
+            ) latest ON latest.id_alumni = t.id_alumni AND latest.last_created = t.created_at
+            ORDER BY t.id_alumni ASC
+       ");
         $stmt->execute();
         $result = $stmt->get_result();
         $stmt->close();
