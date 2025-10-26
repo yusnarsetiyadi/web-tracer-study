@@ -7,9 +7,9 @@ class db_koneksi
     // Koneksi Database 
     function __construct()
     {
-        $server = '127.0.0.1';
-        $username = 'root';
-        $password = 'Yusnar12345*';
+        $server = '103.84.207.118';
+        $username = 'tracerstudy';
+        $password = 'TracerStudy12345*';
         $database = 'tracer_study';
     
         $this->koneksi = new mysqli($server, $username, $password, $database);   
