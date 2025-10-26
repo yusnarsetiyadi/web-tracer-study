@@ -1,0 +1,40 @@
+name: Deploy to VPS
+
+on:
+   push:
+      branches: [ "master" ]
+
+jobs:
+   deploy:
+      runs-on: ubuntu-latest
+
+      steps:
+
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Upload files to VPS
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          password: ${{ secrets.VPS_PASS }}
+          port: ${{ secrets.VPS_PORT }}
+          source: "./"
+          target: "/var/www/html/deploy/tracerstudy"
+
+      - name: Set Permissions
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          password: ${{ secrets.VPS_PASS }}
+          port: ${{ secrets.VPS_PORT }}
+          script: |
+            echo "=== Set ownership & permission ==="
+            sudo chown www-data:www-data /var/www/html/deploy/tracerstudy
+            sudo chmod 755 /var/www/html/deploy/tracerstudy
+            for dir in css img js scss vendor; do
+              sudo chown -R www-data:www-data /var/www/html/deploy/tracerstudy/assets/$dir
+              sudo chmod -R 755 /var/www/html/deploy/tracerstudy/assets/$dir
+            done
