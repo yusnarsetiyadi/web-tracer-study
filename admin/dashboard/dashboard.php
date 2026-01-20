@@ -200,7 +200,7 @@ while ($row = $dataAlumniBekerja->fetch_assoc()) {
     </div>
     <div class="col-md-3">
         <select id="filterMulai" class="form-select">
-            <option value="">Filter Tahun Mulai Kerja</option>
+            <option value="">Filter Tahun Mulai Kerja </option>
             <?php 
             $mulaiList = array_unique(array_column($alumniBekerja, 'mulai_kerja'));
             sort($mulaiList);
