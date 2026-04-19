@@ -8,17 +8,17 @@
                 <?php
                 // Notifikasi
                 if (isset($_SESSION['sukses'])) {
-                    echo '<div class="alert alert-success alert-dismissible fade show" role="alert">'
-                        . $_SESSION['sukses'] .
-                        '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    echo '<div class="alert alert-success alert-dismissible fade show" role="alert">
+                        ' . $_SESSION['sukses'] . '
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>';
                     unset($_SESSION['sukses']);
                 }
 
                 if (isset($_SESSION['gagal'])) {
-                    echo '<div class="alert alert-danger alert-dismissible fade show" role="alert">'
-                        . $_SESSION['gagal'] .
-                        '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    echo '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        ' . $_SESSION['gagal'] . '
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>';
                     unset($_SESSION['gagal']);
                 }
@@ -42,15 +42,12 @@
                                 <th>Tahun Lulus</th>
                                 <th>Nama Instansi</th>
                                 <th>Alamat Instansi</th>
-                                <th>Sektor Perusahaan</th>
-                                <th>No Telepon Perusahaan</th>
-                                <th>Gaji Sekarang</th>
-                                <th>Ket UMR</th>
-                                <th>Waktu Tunggu Pertama Kerja</th>
+                                <th>Apakah Bekerja?</th>
+                                <th>Gaji</th>
+                                <th>Waktu Tunggu</th>
                                 <th>Instansi Pertama</th>
-                                <th>Sektor Instansi Pertama</th>
                                 <th>Gaji Pertama</th>
-                                <th>Ket UMR</th>
+                                <th>Usaha Mandiri?</th>
                                 <th>Diinput</th>
                                 <th>Diedit</th>
                             </tr>
@@ -63,28 +60,25 @@
                                 foreach ($dataTracer as $data) {
                                     ?>
                                     <tr>
-                                        <td><?= $no++; ?></td>
-                                        <td><?= $data['nama_alumni']; ?></td>
-                                        <td><?= $data['jurusan']; ?></td>
-                                        <td><?= $data['tahun_lulus']; ?></td>
-                                        <td><?= $data['nama_instansi']; ?></td>
-                                        <td><?= $data['alamat_instansi']; ?></td>
-                                        <td><?= $data['sektor_perusahaan']; ?></td>
-                                        <td><?= $data['no_telepon_instansi']; ?></td>
-                                        <td><?= $data['nilai_gaji']; ?></td>
-                                        <td><?= $data['ket_umr']; ?></td>
-                                        <td><?= $data['waktu_tunggu_kerja']; ?></td>
-                                        <td><?= $data['instansi_pertama']; ?></td>
-                                        <td><?= $data['sektor_instansi_pertama']; ?></td>
-                                        <td><?= $data['nilai_gaji_pertama']; ?></td>
-                                        <td><?= $data['ket_umr_gaji_pertama']; ?></td>
-                                        <td><?= $data['created_at']; ?></td>
-                                        <td><?= $data['updated_at']; ?></td>
-
+                                        <td><?= $no++ ?></td>
+                                        <td><?= htmlspecialchars($data['nama_alumni']) ?></td>
+                                        <td><?= htmlspecialchars($data['jurusan']) ?></td>
+                                        <td><?= htmlspecialchars($data['tahun_lulus']) ?></td>
+                                        <td><?= htmlspecialchars($data['nama_instansi']) ?></td>
+                                        <td><?= htmlspecialchars($data['alamat_instansi']) ?></td>
+                                        <td><?= htmlspecialchars($data['sedang_bekerja']) ?></td>
+                                        <td><?= htmlspecialchars($data['nilai_gaji']) ?></td>
+                                        <td><?= htmlspecialchars($data['waktu_tunggu_kerja']) ?></td>
+                                        <td><?= htmlspecialchars($data['instansi_pertama']) ?></td>
+                                        <td><?= htmlspecialchars($data['gaji_pertama_manual']) ?></td>
+                                        <td><?= htmlspecialchars($data['usaha_mandiri']) ?></td>
+                                        <td><?= htmlspecialchars($data['created_at']) ?></td>
+                                        <td><?= htmlspecialchars($data['updated_at']) ?></td>
                                     </tr>
-                                <?php }
+                                    <?php
+                                }
                             } else {
-                                echo '<tr><td colspan="13" class="text-center">Data tidak tersedia.</td></tr>';
+                                echo '<tr><td colspan="17" class="text-center">Data tidak tersedia.</td></tr>';
                             }
                             ?>
                         </tbody>

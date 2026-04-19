@@ -265,7 +265,6 @@ while ($row = $dataAlumniBekerja->fetch_assoc()) {
             <th>Jurusan</th>
             <th>Tahun Lulus</th>
             <th>Instansi</th>
-            <th>Sektor Perusahaan</th>
             <th>Waktu Tunggu Kerja</th>
             <th>Tanggal Mulai Kerja</th>
         </tr>
@@ -277,7 +276,6 @@ while ($row = $dataAlumniBekerja->fetch_assoc()) {
             <td><?php echo htmlspecialchars($alumni['jurusan']); ?></td>
             <td><?php echo htmlspecialchars($alumni['tahun_lulus']); ?></td>
             <td><?php echo htmlspecialchars($alumni['instansi']); ?></td>
-            <td><?php echo htmlspecialchars($alumni['sektor']); ?></td>
             <td><?php echo htmlspecialchars($alumni['waktu_tunggu']); ?></td>
             <td><?php echo htmlspecialchars($alumni['mulai_kerja']); ?></td>
         </tr>

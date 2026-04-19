@@ -39,15 +39,12 @@
                 <th>No.</th>
                 <th>Nama Instansi</th>
                 <th>Alamat Instansi</th>
-                <th>Sektor Perusahaan</th>
-                <th>No Telepon Perusahaan</th>
-                <th>Gaji Sekarang</th>
-                <th>Ket UMR</th>
-                <th>Waktu Tunggu Pertama Kerja</th>
+                <th>Apakah Bekerja?</th>
+                <th>Gaji</th>
+                <th>Waktu Tunggu</th>
                 <th>Instansi Pertama</th>
-                <th>Sektor Instansi Pertama</th>
                 <th>Gaji Pertama</th>
-                <th>Ket UMR</th>
+                <th>Usaha Mandiri?</th>
                 <th>Diinput</th>
                 <th>Diedit</th>
               </tr>
@@ -62,15 +59,12 @@
                   <td><?= $counter++; ?></td>
                   <td><?= $data['nama_instansi']; ?></td>
                   <td><?= $data['alamat_instansi']; ?></td>
-                  <td><?= $data['sektor_perusahaan']; ?></td>
-                  <td><?= $data['no_telepon_instansi']; ?></td>
+                  <td><?= $data['sedang_bekerja']; ?></td>
                   <td><?= $data['nilai_gaji']; ?></td>
-                  <td><?= $data['ket_umr']; ?></td>
                   <td><?= $data['waktu_tunggu_kerja']; ?></td>
                   <td><?= $data['instansi_pertama']; ?></td>
-                  <td><?= $data['sektor_instansi_pertama']; ?></td>
-                  <td><?= $data['nilai_gaji_pertama']; ?></td>
-                  <td><?= $data['ket_umr_gaji_pertama']; ?></td>
+                  <td><?= $data['gaji_pertama_manual']; ?></td>
+                  <td><?= $data['usaha_mandiri']; ?></td>
                   <td><?= $data['created_at']; ?></td>
                   <td><?= $data['updated_at']; ?></td>
                 </tr>

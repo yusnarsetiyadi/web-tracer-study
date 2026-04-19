@@ -23,6 +23,13 @@ $menu = $_GET['menu'];
       </a>
     </li><!-- End tracers Page Nav -->
 
+    <li class="nav-item">
+      <a class="nav-link <?php echo ($menu !== 'data-loker' && $menu !== 'tambah-loker' && $menu !== 'edit-loker') ? 'collapsed' : ''; ?>"
+        href="?menu=data-loker">
+        <i class="bi bi-briefcase"></i>
+        <span>Info Loker</span>
+      </a>
+    </li><!-- End Info Loker Nav -->
 
     <li class="nav-heading">Logout</li>
     <li class="nav-item">

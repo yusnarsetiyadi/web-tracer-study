@@ -73,6 +73,14 @@ if ($_SESSION['level'] == 'admin') {
         </a>
       </li>
 
+      <li class="nav-heading">Info Loker</li>
+      <li class="nav-item">
+        <a class="nav-link <?php echo ($menu !== 'data-loker' && $menu !== 'tambah-loker' && $menu !== 'edit-loker') ? 'collapsed' : ''; ?>" href="?menu=data-loker">
+          <i class="bi bi-briefcase"></i>
+          <span>Info Loker</span>
+        </a>
+      </li>
+
       <li class="nav-heading">Logout</li>
       <li class="nav-item">
         <a onclick="return confirm('Apakah anda yakin akan Logout?')" class="nav-link collapsed"

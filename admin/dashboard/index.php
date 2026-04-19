@@ -137,6 +137,19 @@ window.ALUMNI_CHART_TITLE = 'Statistik Alumni (5 Tahun Terakhir)';
           case 'export-tracer':
             include "laporan/proses/export-tracer.php";
             break;
+          
+          // info loker
+          case 'data-loker':
+            include "info-loker/data-loker.php";
+            break;
+          
+          case 'tambah-loker':
+            include "info-loker/tambah-loker.php";
+            break;
+
+          case 'edit-loker':
+            include "info-loker/edit-loker.php";
+            break;
 
           // Profile        
           case 'my-profile':

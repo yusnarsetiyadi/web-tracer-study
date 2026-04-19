@@ -164,30 +164,34 @@ while ($row = $dataAlumniBekerja->fetch_assoc()) {
         'jurusan' => $row['jurusan'],
         'tahun_lulus' => $row['tahun_lulus'],
         'instansi' => $row['nama_instansi'],
-        'sektor' => $row['sektor_perusahaan'],
+        'sedang_bekerja' => $row['sedang_bekerja'],
+        'nilai_gaji' => $row['nilai_gaji'],
         'waktu_tunggu' => $row['waktu_tunggu_kerja'],
+        'instansi_pertama' => $row['instansi_pertama'],
+        'usaha_mandiri' => $row['usaha_mandiri'],
+        'gaji_pertama_manual' => $row['gaji_pertama_manual'],
         'mulai_kerja' => date('Y', strtotime($row['created_at']))
     ];
 }
 ?>
 
 <h5 class="card-title mb-0">🟢 Track Record Alumni Sudah Bekerja</h5>
-<p>Total Alumni: <?php echo $totalAlumniBekerja; ?></p>
+<p>Total Alumni: <?= $totalAlumniBekerja ?></p>
 
 <!-- 🔽 Filter Dropdown -->
 <div class="row mb-3">
-    <div class="col-md-3">
-        <select id="filterSektor" class="form-select">
-            <option value="">Filter Sektor Perusahaan</option>
+    <div class="col-md-2">
+        <select id="filterInstansiPertama" class="form-select">
+            <option value="">Filter Instansi Pertama</option>
             <?php 
-            $sektorList = array_unique(array_column($alumniBekerja, 'sektor'));
-            foreach ($sektorList as $sektor) {
-                echo "<option value='".htmlspecialchars($sektor)."'>$sektor</option>";
+            $instansiList = array_unique(array_column($alumniBekerja, 'instansi_pertama'));
+            foreach ($instansiList as $instansi) {
+                echo "<option value='".htmlspecialchars($instansi)."'>$instansi</option>";
             }
             ?>
         </select>
     </div>
-    <div class="col-md-3">
+    <div class="col-md-2">
         <select id="filterWaktu" class="form-select">
             <option value="">Filter Waktu Tunggu Kerja</option>
             <?php 
@@ -198,7 +202,14 @@ while ($row = $dataAlumniBekerja->fetch_assoc()) {
             ?>
         </select>
     </div>
-    <div class="col-md-3">
+    <div class="col-md-2">
+        <select id="filterUsaha" class="form-select">
+            <option value="">Filter Usaha Mandiri</option>
+            <option value="Ya">Ya</option>
+            <option value="Tidak">Tidak</option>
+        </select>
+    </div>
+    <div class="col-md-2">
         <select id="filterMulai" class="form-select">
             <option value="">Filter Tahun Mulai Kerja</option>
             <?php 
@@ -210,7 +221,7 @@ while ($row = $dataAlumniBekerja->fetch_assoc()) {
             ?>
         </select>
     </div>
-    <div class="col-md-3 d-flex">
+    <div class="col-md-2 d-flex">
         <button id="clearFilter" class="btn btn-secondary w-100">Clear Filter</button>
     </div>
 </div>
@@ -222,29 +233,37 @@ while ($row = $dataAlumniBekerja->fetch_assoc()) {
             <th>Nama</th>
             <th>Jurusan</th>
             <th>Tahun Lulus</th>
-            <th>Instansi</th>
-            <th>Sektor Perusahaan</th>
-            <th>Waktu Tunggu Kerja</th>
-            <th>Tanggal Mulai Kerja</th>
+            <th>Apakah Bekerja?</th>
+            <th>Instansi Saat Ini</th>
+            <th>Gaji</th>
+            <th>Waktu Tunggu</th>
+            <th>Instansi Pertama</th>
+            <th>Gaji Pertama</th>
+            <th>Usaha Mandiri?</th>
+            <th>Tahun Mulai Kerja</th>
         </tr>
     </thead>
     <tbody>
         <?php foreach ($alumniBekerja as $alumni) { ?>
         <tr>
-            <td><?php echo htmlspecialchars($alumni['nama']); ?></td>
-            <td><?php echo htmlspecialchars($alumni['jurusan']); ?></td>
-            <td><?php echo htmlspecialchars($alumni['tahun_lulus']); ?></td>
-            <td><?php echo htmlspecialchars($alumni['instansi']); ?></td>
-            <td><?php echo htmlspecialchars($alumni['sektor']); ?></td>
-            <td><?php echo htmlspecialchars($alumni['waktu_tunggu']); ?></td>
-            <td><?php echo htmlspecialchars($alumni['mulai_kerja']); ?></td>
+            <td><?= htmlspecialchars($alumni['nama']); ?></td>
+            <td><?= htmlspecialchars($alumni['jurusan']); ?></td>
+            <td><?= htmlspecialchars($alumni['tahun_lulus']); ?></td>
+            <td><?= htmlspecialchars($alumni['instansi']); ?></td>
+            <td><?= htmlspecialchars($alumni['sedang_bekerja']); ?></td>
+            <td><?= htmlspecialchars($alumni['nilai_gaji']); ?></td>
+            <td><?= htmlspecialchars($alumni['waktu_tunggu']); ?></td>
+            <td><?= htmlspecialchars($alumni['instansi_pertama']); ?></td>
+            <td><?= htmlspecialchars($alumni['gaji_pertama_manual']); ?></td>
+            <td><?= htmlspecialchars($alumni['usaha_mandiri']); ?></td>
+            <td><?= htmlspecialchars($alumni['mulai_kerja']); ?></td>
         </tr>
         <?php } ?>
     </tbody>
 </table>
 
 <!-- 🔽 Counter tampil -->
-<p id="countDisplay"><b>Jumlah data ditampilkan: <?php echo count($alumniBekerja); ?></b></p>
+<p id="countDisplay"><b>Jumlah data ditampilkan: <?= count($alumniBekerja); ?></b></p>
 
 <?php } else { ?>
 <p><i>Belum ada data alumni yang bekerja</i></p>
@@ -252,28 +271,31 @@ while ($row = $dataAlumniBekerja->fetch_assoc()) {
 
 <script>
 document.addEventListener("DOMContentLoaded", function() {
-    const filterSektor = document.getElementById("filterSektor");
+    const filterInstansiPertama = document.getElementById("filterInstansiPertama");
     const filterWaktu = document.getElementById("filterWaktu");
+    const filterUsaha = document.getElementById("filterUsaha");
     const filterMulai = document.getElementById("filterMulai");
-    const clearFilter = document.getElementById("clearFilter");
     const rows = document.querySelectorAll("#alumniTable tbody tr");
     const countDisplay = document.getElementById("countDisplay");
 
     function applyFilter() {
-        const sektorVal = filterSektor.value.toLowerCase();
+        const instansiPertamaVal = filterInstansiPertama.value.toLowerCase();
         const waktuVal = filterWaktu.value.toLowerCase();
+        const usahaVal = filterUsaha.value.toLowerCase();
         const mulaiVal = filterMulai.value.toLowerCase();
 
         let visibleCount = 0;
 
         rows.forEach(row => {
-            const sektor = row.cells[4].textContent.toLowerCase();
-            const waktu = row.cells[5].textContent.toLowerCase();
-            const mulai = row.cells[6].textContent.toLowerCase();
+            const instansiPertama = row.cells[8].textContent.toLowerCase();
+            const waktu = row.cells[7].textContent.toLowerCase();
+            const usaha = row.cells[9].textContent.toLowerCase();
+            const mulai = row.cells[10].textContent.toLowerCase();
 
             const match = 
-                (sektorVal === "" || sektor.includes(sektorVal)) &&
+                (instansiPertamaVal === "" || instansiPertama.includes(instansiPertamaVal)) &&
                 (waktuVal === "" || waktu.includes(waktuVal)) &&
+                (usahaVal === "" || usaha.includes(usahaVal)) &&
                 (mulaiVal === "" || mulai.includes(mulaiVal));
 
             if (match) {
@@ -287,14 +309,16 @@ document.addEventListener("DOMContentLoaded", function() {
         countDisplay.textContent = "Jumlah data ditampilkan: " + visibleCount;
     }
 
-    filterSektor.addEventListener("change", applyFilter);
+    filterInstansiPertama.addEventListener("change", applyFilter);
     filterWaktu.addEventListener("change", applyFilter);
+    filterUsaha.addEventListener("change", applyFilter);
     filterMulai.addEventListener("change", applyFilter);
 
     // 🔽 Reset filter
     clearFilter.addEventListener("click", function() {
-        filterSektor.value = "";
+        filterInstansiPertama.value = "";
         filterWaktu.value = "";
+        filterUsaha.value = "";
         filterMulai.value = "";
         applyFilter();
     });

@@ -7,19 +7,16 @@ $con = new db_koneksi;
 if (isset($_POST["tambah"])) {
     $nama_instansi = test_input($_POST['nama_instansi']);
     $alamat_instansi = test_input($_POST['alamat_instansi']);
-    $sektor_perusahaan = test_input($_POST['sektor']);
-    $no_telepon_instansi = test_input($_POST['no_telepon_instansi']);
+    $sedang_bekerja = test_input($_POST['sedang_bekerja']);
     $nilai_gaji = test_input($_POST['nilai_gaji']);
-    $ket_umr = test_input($_POST['ket_umr']);
     $waktu_tunggu_kerja = test_input($_POST['waktu_tunggu']);
-    $instansi_pertama = test_input($_POST['nama_instansi_pertama']);
-    $sektor_instansi_pertama = test_input($_POST['sektor_pertama']);
-    $nilai_gaji_pertama = test_input($_POST['nilai_gaji_pertama']);
-    $ket_umr_gaji_pertama = test_input($_POST['ket_umr_gaji_pertama']);
-
+    $instansi_pertama = test_input($_POST['instansi_pertama']);
+    $gaji_pertama_manual = test_input($_POST['gaji_pertama_manual']);
+    $usaha_mandiri = test_input($_POST['usaha_mandiri']);
+    
     date_default_timezone_set('Asia/Jakarta');
 
-    $con->tambah_tracer($id_alumni, $nama_instansi, $alamat_instansi, $sektor_perusahaan, $no_telepon_instansi, $nilai_gaji, $ket_umr, $waktu_tunggu_kerja, $instansi_pertama, $sektor_instansi_pertama, $nilai_gaji_pertama, $ket_umr_gaji_pertama);
+    $con->tambah_tracer($id_alumni, $nama_instansi, $alamat_instansi, $sedang_bekerja, $nilai_gaji, $waktu_tunggu_kerja, $instansi_pertama, $gaji_pertama_manual, $usaha_mandiri);
     $con->update_work_alumni($id_alumni);
     $_SESSION['sukses'] = "Data Tracer Berhasil Ditambah!";
     header("location: ../../?menu=data-tracer");

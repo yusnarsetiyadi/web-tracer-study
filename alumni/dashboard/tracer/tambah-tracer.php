@@ -23,6 +23,29 @@
         <!-- Form Tambah User -->
         <form class="row g-3" method="post" action="tracer/proses/proses-tambah-tracer.php">
             <div class="col-md-6">
+                <label for="sedang_bekerja" class="form-label">Apakah Anda Bekerja Saat Ini?</label>
+                <select class="form-control <?php echo isset($_SESSION['gagal']) ? 'is-invalid' : ''; ?>" name="sedang_bekerja"
+                    id="sedang_bekerja">
+                    <option selected disabled>
+                        <?php
+                        if (!isset($_SESSION['isi_sedang_bekerja'])) {
+                            echo 'Pilih status pekerjaan saat ini...';
+                        } else {
+                            echo $_SESSION['isi_sedang_bekerja'];
+                            unset($_SESSION['isi_sedang_bekerja']);
+                        }
+                        ?>
+                    </option>
+                    <?php
+                    $status_bekerja = ['Ya', 'Tidak'];
+                    foreach ($status_bekerja as $status) {
+                        $selected = isset($_POST['sedang_bekerja']) && $_POST['sedang_bekerja'] == $status ? 'selected' : '';
+                        echo '<option value="' . $status . '" ' . $selected . '>' . $status . '</option>';
+                    }
+                    ?>
+                </select>
+            </div>
+            <div class="col-md-6">
                 <label for="nama_instansi" class="form-label">Nama Instansi</label>
                 <input type="text" class="form-control" id="nama_instansi" name="nama_instansi" maxlength="50"
                     placeholder="Masukan nama instansi saat ini anda bekerja" value="<?php echo isset($_SESSION['isi_nama_instansi']) ? htmlspecialchars($_SESSION['isi_nama_instansi'], ENT_QUOTES, 'UTF-8') : '';
@@ -35,93 +58,17 @@
                     unset($_SESSION['isi_alamat_instansi']); ?>" required>
             </div>
             <div class="col-md-6">
-                <label for="sektor" class="form-label">Bergerak di sektor apakah perusahaan Anda bekerja saat ini
-                    ?</label>
-                <select class="form-control <?php echo isset($_SESSION['gagal']) ? 'is-invalid' : ''; ?>" name="sektor"
-                    id="sektor">
-                    <option selected disabled>
-                        <?php
-                        if (!isset($_SESSION['isi_sektor'])) {
-                            echo 'Pilih sektor instansi anda saat ini bekerja...';
-                        } else {
-                            echo $_SESSION['isi_sektor'];
-                            unset($_SESSION['isi_sektor']);
-                        }
-                        ?>
-                    </option>
-                    <?php
-                    $sektors = ['Instansi Pemerintahan', 'Finansial', 'Pendidikan', 'Kesehatan', 'Jasa', 'Lainnya'];
-
-                    foreach ($sektors as $sektor) {
-                        $selected = isset($_POST['sektor']) && $_POST['sektor'] == $sektor ? 'selected' : '';
-                        echo '<option value="' . $sektor . '" ' . $selected . '>' . $sektor . '</option>';
-                    }
-                    ?>
-                </select>
-            </div>
-
-            <div class="col-md-6">
-                <label for="no_telepon_instansi" class="form-label">Nomor Telepon Instansi</label>
-                <input type="no_telepon_instansi" class="form-control" id="No TeleponInstansi" name="no_telepon_instansi"
-                    maxlength="15" placeholder="Nomor Telepon Instansi" value="<?php echo isset($_SESSION['isi_no_telepon_instansi']) ? htmlspecialchars($_SESSION['isi_no_telepon_instansi'], ENT_QUOTES, 'UTF-8') : '';
-                    unset($_SESSION['isi_no_telepon_instansi']); ?>" required>
-            </div>
-
-            <div class="col-md-6">
-                <label for="nilai_gaji" class="form-label">Berapakah Nilai Gaji Anda Saat Ini ?</label>
-                <select class="form-control <?php echo isset($_SESSION['gagal']) ? 'is-invalid' : ''; ?>"
-                    name="nilai_gaji" id="nilai_gaji">
-                    <option selected disabled>
-                        <?php
-                        if (!isset($_SESSION['isi_nilai_gaji'])) {
-                            echo 'Pilih nilai gaji anda saat ini...';
-                        } else {
-                            echo $_SESSION['isi_nilai_gaji'];
-                            unset($_SESSION['isi_nilai_gaji']);
-                        }
-                        ?>
-                    </option>
-                    <?php
-                    $nilai_gajis = ['< 2 Juta', '2-3 Juta', '3-5 Juta', '5-7 Juta', '7-10 Juta', '> 10 Juta'];
-
-                    foreach ($nilai_gajis as $nilai_gaji) {
-                        $selected = isset($_POST['nilai_gaji']) && $_POST['nilai_gaji'] == $nilai_gaji ? 'selected' : '';
-                        echo '<option value="' . $nilai_gaji . '" ' . $selected . '>' . $nilai_gaji . '</option>';
-                    }
-                    ?>
-                </select>
-            </div>
-            <div class="col-md-6">
-                <label for="ket_umr" class="form-label">Apakah nilai gaji/pendapatan anda sesuai dengan UMR daerah
-                    ?</label>
-                <select class="form-control <?php echo isset($_SESSION['gagal']) ? 'is-invalid' : ''; ?>" name="ket_umr"
-                    id="ket_umr">
-                    <option selected disabled>
-                        <?php
-                        if (!isset($_SESSION['isi_ket_umr'])) {
-                            echo 'Pilih ket umr gaji anda saat ini...';
-                        } else {
-                            echo $_SESSION['isi_ket_umr'];
-                            unset($_SESSION['isi_ket_umr']);
-                        }
-                        ?>
-                    </option>
-                    <?php
-                    $ket_umrs = ['Sesuai UMR', 'Tidak Sesuai UMR - Lebih Kecil', 'Tidak Sesuai UMR - Lebih Besar'];
-
-                    foreach ($ket_umrs as $ket_umr) {
-                        $selected = isset($_POST['ket_umr']) && $_POST['ket_umr'] == $ket_umr ? 'selected' : '';
-                        echo '<option value="' . $ket_umr . '" ' . $selected . '>' . $ket_umr . '</option>';
-                    }
-                    ?>
-                </select>
+                <label for="nilai_gaji" class="form-label">Berapakah Nilai Gaji Anda Saat Ini?</label>
+                <input type="text" class="form-control" id="nilai_gaji" name="nilai_gaji" maxlength="100"
+                    placeholder="Contoh: 3.500.000 atau 5 Juta" value="<?php echo isset($_SESSION['isi_nilai_gaji']) ? htmlspecialchars($_SESSION['isi_nilai_gaji'], ENT_QUOTES, 'UTF-8') : ''; 
+                    unset($_SESSION['isi_nilai_gaji']); ?>">
             </div>
             <hr>
+            <h6 class="card-title">Pertanyaan Tambahan</h6>
             <div class="col-md-6">
-                <label for="waktu_tunggu" class="form-label">Berapa lama waktu tunggu anda mendapatkan pekerjaan pertama
-                    kali ?</label>
-                <select class="form-control <?php echo isset($_SESSION['gagal']) ? 'is-invalid' : ''; ?>"
-                    name="waktu_tunggu" id="waktu_tunggu">
+                <label for="waktu_tunggu" class="form-label">Berapa lama waktu tunggu anda mendapatkan pekerjaan pertama kali?</label>
+                <select class="form-control <?php echo isset($_SESSION['gagal']) ? 'is-invalid' : ''; ?>" name="waktu_tunggu"
+                    id="waktu_tunggu">
                     <option selected disabled>
                         <?php
                         if (!isset($_SESSION['isi_waktu_tunggu'])) {
@@ -143,85 +90,36 @@
                 </select>
             </div>
             <div class="col-md-6">
-                <label for="nama_instansi_pertama" class="form-label">Di instansi mana anda pertama kali bekerja
-                    ?</label>
-                <input type="text" class="form-control" id="nama_instansi_pertama" name="nama_instansi_pertama"
-                    maxlength="50" placeholder="Masukan nama instansi pertama anda bekerja" value="<?php echo isset($_SESSION['isi_nama_instansi_pertama']) ? htmlspecialchars($_SESSION['isi_nama_instansi_pertama'], ENT_QUOTES, 'UTF-8') : '';
-                    unset($_SESSION['isi_nama_instansi_pertama']); ?>" required>
+                <label for="instansi_pertama" class="form-label">Di instansi mana anda pertama kali bekerja?</label>
+                <input type="text" class="form-control" id="instansi_pertama" name="instansi_pertama" maxlength="100"
+                    placeholder="Contoh: PT Teknologi Indonesia atau Dinas Kesehatan" value="<?php echo isset($_SESSION['isi_instansi_pertama']) ? htmlspecialchars($_SESSION['isi_instansi_pertama'], ENT_QUOTES, 'UTF-8') : ''; 
+                    unset($_SESSION['isi_instansi_pertama']); ?>">
             </div>
             <div class="col-md-6">
-                <label for="sektor_pertama" class="form-label">Di instansi sektor mana anda pertama kali bekerja
-                    ?</label>
-                <select class="form-control <?php echo isset($_SESSION['gagal']) ? 'is-invalid' : ''; ?>"
-                    name="sektor_pertama" id="sektor_pertama">
+                <label for="gaji_pertama_manual" class="form-label">Berapakah Nilai Gaji Pertama Kali Anda Bekerja?</label>
+                <input type="text" class="form-control" id="gaji_pertama_manual" name="gaji_pertama_manual"
+                    maxlength="100" placeholder="Contoh: 3.500.000 atau 5 Juta" value="<?php echo isset($_SESSION['isi_gaji_pertama_manual']) ? htmlspecialchars($_SESSION['isi_gaji_pertama_manual'], ENT_QUOTES, 'UTF-8') : ''; 
+                    unset($_SESSION['isi_gaji_pertama_manual']); ?>">
+            </div>
+            <div class="col-md-6">
+                <label for="usaha_mandiri" class="form-label">Apakah anda mempunyai usaha mandiri saat ini?</label>
+                <select class="form-control <?php echo isset($_SESSION['gagal']) ? 'is-invalid' : ''; ?>" name="usaha_mandiri"
+                    id="usaha_mandiri">
                     <option selected disabled>
                         <?php
-                        if (!isset($_SESSION['isi_sektor_pertama'])) {
-                            echo 'Pilih sektor instansi pertama bekerja...';
+                        if (!isset($_SESSION['isi_usaha_mandiri'])) {
+                            echo 'Pilih status usaha mandiri...';
                         } else {
-                            echo $_SESSION['isi_sektor_pertama'];
-                            unset($_SESSION['isi_sektor_pertama']);
+                            echo $_SESSION['isi_usaha_mandiri'];
+                            unset($_SESSION['isi_usaha_mandiri']);
                         }
                         ?>
                     </option>
                     <?php
-                    $sektor_pertamas = ['Instansi Pemerintahan', 'Finansial', 'Pendidikan', 'Kesehatan', 'Jasa', 'Lainnya'];
-
-                    foreach ($sektor_pertamas as $sektor_pertama) {
-                        $selected = isset($_POST['sektor_pertama']) && $_POST['sektor_pertama'] == $sektor_pertama ? 'selected' : '';
-                        echo '<option value="' . $sektor_pertama . '" ' . $selected . '>' . $sektor_pertama . '</option>';
-                    }
-                    ?>
-                </select>
-            </div>
-
-            <div class="col-md-6">
-                <label for="nilai_gaji_pertama" class="form-label">Berapakah Nilai Gaji Anda Pertama Kali Bekerja
-                    ?</label>
-                <select class="form-control <?php echo isset($_SESSION['gagal']) ? 'is-invalid' : ''; ?>"
-                    name="nilai_gaji_pertama" id="nilai_gaji_pertama">
-                    <option selected disabled>
-                        <?php
-                        if (!isset($_SESSION['isi_nilai_gaji_pertama'])) {
-                            echo 'Pilih nilai gaji anda saat Pertama Bekerja...';
-                        } else {
-                            echo $_SESSION['isi_nilai_gaji_pertama'];
-                            unset($_SESSION['isi_nilai_gaji_pertama']);
-                        }
-                        ?>
-                    </option>
-                    <?php
-                    $nilai_gaji_pertamas = ['< 2 Juta', '2-3 Juta', '3-5 Juta', '5-7 Juta', '7-10 Juta', '> 10 Juta'];
-
-                    foreach ($nilai_gaji_pertamas as $nilai_gaji_pertama) {
-                        $selected = isset($_POST['nilai_gaji_pertama']) && $_POST['nilai_gaji_pertama'] == $nilai_gaji_pertama ? 'selected' : '';
-                        echo '<option value="' . $nilai_gaji_pertama . '" ' . $selected . '>' . $nilai_gaji_pertama . '</option>';
-                    }
-                    ?>
-                </select>
-            </div>
-            <div class="col-md-6">
-                <label for="ket_umr_gaji_pertama" class="form-label">Apakah nilai gaji/pendapatan Pertama anda sesuai
-                    dengan UMR daerah
-                    ?</label>
-                <select class="form-control <?php echo isset($_SESSION['gagal']) ? 'is-invalid' : ''; ?>"
-                    name="ket_umr_gaji_pertama" id="ket_umr_gaji_pertama">
-                    <option selected disabled>
-                        <?php
-                        if (!isset($_SESSION['isi_ket_umr_gaji_pertama'])) {
-                            echo 'Pilih ket umr gaji anda saat ini...';
-                        } else {
-                            echo $_SESSION['isi_ket_umr_gaji_pertama'];
-                            unset($_SESSION['isi_ket_umr_gaji_pertama']);
-                        }
-                        ?>
-                    </option>
-                    <?php
-                    $ket_umr_gaji_pertamas = ['Sesuai UMR', 'Tidak Sesuai UMR - Lebih Kecil', 'Tidak Sesuai UMR - Lebih Besar'];
-
-                    foreach ($ket_umr_gaji_pertamas as $ket_umr_gaji_pertama) {
-                        $selected = isset($_POST['ket_umr_gaji_pertama']) && $_POST['ket_umr_gaji_pertama'] == $ket_umr_gaji_pertama ? 'selected' : '';
-                        echo '<option value="' . $ket_umr_gaji_pertama . '" ' . $selected . '>' . $ket_umr_gaji_pertama . '</option>';
+                    $usaha_mandiris = ['Ya', 'Tidak'];
+                    foreach ($usaha_mandiris as $usaha_mandiri) {
+                        $selected = isset($_POST['usaha_mandiri']) && $_POST['usaha_mandiri'] == $usaha_mandiri ? 'selected' : '';
+                        echo '<option value="' . $usaha_mandiri . '" ' . $selected . '>' . $usaha_mandiri . '</option>';
                     }
                     ?>
                 </select>
@@ -230,8 +128,7 @@
             <div class="text-center">
                 <button onclick="return confirm('Apakah data yang diinput sudah benar dan siap disimpan?')"
                     type="submit" class="btn btn-primary" name="tambah">Simpan</button>
-                <a onclick="return confirm('Apakah Anda Yakin untuk membatalkan input tracer study ini?')"
-                    class="btn btn-danger" href="?menu=data-tracer">Kembali</a>
+                <a class="btn btn-danger" href="?menu=data-tracer">Kembali</a>
             </div>
         </form><!-- End No Labels Form -->
 

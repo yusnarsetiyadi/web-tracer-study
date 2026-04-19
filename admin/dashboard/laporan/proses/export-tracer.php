@@ -19,14 +19,12 @@ $data = $con->get_laporan_data_tracer();
             <th>Tahun Lulus</th>
             <th>Nama Instansi</th>
             <th>Alamat Instansi</th>
-            <th>Sektor</th>
-            <th>Telp</th>
+            <th>Apakah Bekerja?</th>
             <th>Gaji</th>
-            <th>Ket UMR</th>
-            <th>Waktu Tunggu Pertama Kerja</th>
-            <th>Sektor Instansi Pertama</th>
+            <th>Waktu Tunggu</th>
+            <th>Instansi Pertama</th>
+            <th>Apakah Punya Usaha Mandiri?</th>
             <th>Gaji Pertama</th>
-            <th>Ket UMR</th>
             <th>Diinput</th>
             <th>Diedit</th>
         </tr>
@@ -42,14 +40,12 @@ $data = $con->get_laporan_data_tracer();
                 <td>{$d['tahun_lulus']}</td>
                 <td>{$d['nama_instansi']}</td>
                 <td>{$d['alamat_instansi']}</td>
-                <td>{$d['sektor_perusahaan']}</td>
-                <td>{$d['no_telepon_instansi']}</td>
+                <td>{$d['sedang_bekerja']}</td>
                 <td>{$d['nilai_gaji']}</td>
-                <td>{$d['ket_umr']}</td>
                 <td>{$d['waktu_tunggu_kerja']}</td>
                 <td>{$d['instansi_pertama']}</td>
-                <td>{$d['nilai_gaji_pertama']}</td>
-                <td>{$d['ket_umr_gaji_pertama']}</td>
+                <td>{$d['usaha_mandiri']}</td>
+                <td>{$d['gaji_pertama_manual']}</td>
                 <td>{$d['created_at']}</td>
                 <td>{$d['updated_at']}</td>
             </tr>";

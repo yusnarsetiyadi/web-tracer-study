@@ -7,9 +7,9 @@ class db_koneksi
     // Koneksi Database 
     function __construct()
     {
-        $server = '103.84.207.118';
-        $username = 'tracerstudy';
-        $password = 'TracerStudy12345*';
+        $server = 'localhost';
+        $username = 'root';
+        $password = 'Yusnar12345*';
         $database = 'tracer_study';
     
         $this->koneksi = new mysqli($server, $username, $password, $database);   
@@ -262,19 +262,15 @@ class db_koneksi
         $id_alumni,
         $nama_instansi,
         $alamat_instansi,
-        $sektor_perusahaan,
-        $no_telepon_instansi,
+        $sedang_bekerja,
         $nilai_gaji,
-        $ket_umr,
         $waktu_tunggu_kerja,
         $instansi_pertama,
-        $sektor_instansi_pertama,
-        $nilai_gaji_pertama,
-        $ket_umr_gaji_pertama
+        $gaji_pertama_manual,
+        $usaha_mandiri
     ) {
-        $stmt = $this->koneksi->prepare("INSERT INTO tracer (id_alumni, nama_instansi, alamat_instansi, sektor_perusahaan, no_telpon_instansi, nilai_gaji, ket_umr, waktu_tunggu_kerja, instansi_pertama, sektor_instansi_pertama, nilai_gaji_pertama, ket_umr_gaji_pertama
-        ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)");
-        $stmt->bind_param("isssssssssss", $id_alumni, $nama_instansi, $alamat_instansi, $sektor_perusahaan, $no_telepon_instansi, $nilai_gaji, $ket_umr, $waktu_tunggu_kerja, $instansi_pertama, $sektor_instansi_pertama, $nilai_gaji_pertama, $ket_umr_gaji_pertama);
+        $stmt = $this->koneksi->prepare("INSERT INTO tracer (id_alumni, nama_instansi, alamat_instansi, sedang_bekerja, nilai_gaji, waktu_tunggu_kerja, instansi_pertama, gaji_pertama_manual, usaha_mandiri) VALUES (?,?,?,?,?,?,?,?,?)");
+        $stmt->bind_param("issssssss", $id_alumni, $nama_instansi, $alamat_instansi, $sedang_bekerja, $nilai_gaji, $waktu_tunggu_kerja, $instansi_pertama, $gaji_pertama_manual, $usaha_mandiri);
         $result = $stmt->execute();
         $stmt->close();
         return $result;
@@ -384,5 +380,51 @@ class db_koneksi
         $result = $stmt->get_result();
         $stmt->close();
         return $result;
+    }
+    
+    function tambah_loker($judul_pekerjaan, $nama_perusahaan, $lokasi, $deskripsi, $link, $nama_admin)
+    {
+        $stmt = $this->koneksi->prepare("INSERT INTO info_loker (judul_pekerjaan, nama_perusahaan, lokasi, deskripsi, link, nama_admin, created_at) VALUES (?,?,?,?,?,?,NOW())");
+        $stmt->bind_param("ssssss", $judul_pekerjaan, $nama_perusahaan, $lokasi, $deskripsi, $link, $nama_admin);
+        $result = $stmt->execute();
+        $stmt->close();
+        return $result;
+    }
+
+    function edit_loker($id_loker, $judul_pekerjaan, $nama_perusahaan, $lokasi, $deskripsi, $link)
+    {
+        $stmt = $this->koneksi->prepare("UPDATE info_loker SET judul_pekerjaan = ?, nama_perusahaan = ?, lokasi = ?, deskripsi = ?, link = ? WHERE id_loker = ?");
+        $stmt->bind_param("sssssi", $judul_pekerjaan, $nama_perusahaan, $lokasi, $deskripsi, $link, $id_loker);
+        $result = $stmt->execute();
+        $stmt->close();
+        return $result;
+    }
+
+    function hapus_loker($id_loker)
+    {
+        $stmt = $this->koneksi->prepare("DELETE FROM info_loker WHERE id_loker = ?");
+        $stmt->bind_param("i", $id_loker);
+        $result = $stmt->execute();
+        $stmt->close();
+        return $result;
+    }
+
+    function get_data_loker()
+    {
+        $stmt = $this->koneksi->prepare("SELECT * FROM info_loker ORDER BY created_at DESC");
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $stmt->close();
+        return $result;
+    }
+
+    function select_loker($id_loker)
+    {
+        $stmt = $this->koneksi->prepare("SELECT * FROM info_loker WHERE id_loker = ?");
+        $stmt->bind_param("i", $id_loker);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $stmt->close();
+        return $result->fetch_assoc();
     }
 }
