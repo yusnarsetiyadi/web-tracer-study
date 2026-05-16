@@ -38,3 +38,10 @@ jobs:
               sudo chown -R www-data:www-data /var/www/html/deploy/tracerstudy/assets/$dir
               sudo chmod -R 755 /var/www/html/deploy/tracerstudy/assets/$dir
             done
+
+            echo "=== Update DB Config ==="
+            DB_FILE="/var/www/html/deploy/tracerstudy/db/db_koneksi.php"
+            sudo sed -i "s/\$server = '.*';/\$server = '${{ secrets.DB_HOST }}';/" $DB_FILE
+            sudo sed -i "s/\$username = '.*';/\$username = '${{ secrets.DB_USER }}';/" $DB_FILE
+            sudo sed -i "s/\$password = '.*';/\$password = '${{ secrets.DB_PASS }}';/" $DB_FILE
+            sudo sed -i "s/\$database = '.*';/\$database = '${{ secrets.DB_NAME }}';/" $DB_FILE
